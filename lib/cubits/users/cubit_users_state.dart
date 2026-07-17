@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import '../../models/user/user_model.dart';
 
 class CubitUsersState extends Equatable {
-
   final bool isLoading;
   final List<UserModel>? users;
   final UserModel? loggedUser;
@@ -16,17 +15,34 @@ class CubitUsersState extends Equatable {
     this.errorMessage,
   });
 
+  static const _unset = Object();
+
   CubitUsersState copyWith({
     bool? isLoading,
-    List<UserModel>? users,
-    UserModel? loggedUser,
-    String? errorMessage,
+    Object? users = _unset,
+    Object? loggedUser = _unset,
+    Object? errorMessage = _unset,
   }) {
     return CubitUsersState(
       isLoading: isLoading ?? this.isLoading,
-      users: users ?? this.users,
-      loggedUser: loggedUser ?? this.loggedUser,
-      errorMessage: errorMessage ?? this.errorMessage,
+      users: users == _unset
+          ? this.users
+          : users as List<UserModel>?,
+      loggedUser: loggedUser == _unset
+          ? this.loggedUser
+          : loggedUser as UserModel?,
+      errorMessage: errorMessage == _unset
+          ? this.errorMessage
+          : errorMessage as String?,
+    );
+  }
+
+  CubitUsersState clearError() {
+    return CubitUsersState(
+      isLoading: isLoading,
+      users: users,
+      loggedUser: loggedUser,
+      errorMessage: null,
     );
   }
 
@@ -37,5 +53,4 @@ class CubitUsersState extends Equatable {
     loggedUser,
     errorMessage,
   ];
-
 }

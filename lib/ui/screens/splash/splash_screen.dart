@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../cubits/auth/auth_cubit.dart';
 import '../../../cubits/auth/cubit_auth_state.dart';
 import '../../../routes/app_routes.dart';
@@ -12,10 +13,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +20,11 @@ class _SplashScreenState extends State<SplashScreen> {
       listener: (_, state) {
         _handleNavigation(state);
       },
-      child: const Scaffold(body: Center(child: CircularProgressIndicator())),
+      child: const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 
@@ -33,16 +34,14 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     if (state.user != null) {
-      Navigator.pushNamedAndRemoveUntil(
+      Navigator.pushNamed(
         context,
         AppRoutes.home,
-            (route) => false,
       );
     } else {
-      Navigator.pushNamedAndRemoveUntil(
+      Navigator.pushNamed(
         context,
         AppRoutes.login,
-            (route) => false,
       );
     }
   }

@@ -19,7 +19,6 @@ class CubitAuth extends Cubit<CubitAuthState>
     _listenAuthChanges();
   }
 
-
   void _listenAuthChanges() {
     _authSubscription =
         _authRepository.authStateChanges.listen(
@@ -51,9 +50,8 @@ class CubitAuth extends Cubit<CubitAuthState>
   }) async {
     try {
       emit(
-        state.copyWith(
+        state.clearError().copyWith(
           isLoading: true,
-          errorMessage: null,
         ),
       );
 
@@ -79,9 +77,8 @@ class CubitAuth extends Cubit<CubitAuthState>
   }) async {
     try {
       emit(
-        state.copyWith(
+        state.clearError().copyWith(
           isLoading: true,
-          errorMessage: null,
         ),
       );
 
@@ -104,12 +101,13 @@ class CubitAuth extends Cubit<CubitAuthState>
   Future<void> logout() async {
     try {
       emit(
-        state.copyWith(
+        state.clearError().copyWith(
           isLoading: true,
-          errorMessage: null,
         ),
       );
+
       await _authRepository.logout();
+
     } catch (e) {
       emit(
         state.copyWith(
@@ -124,6 +122,7 @@ class CubitAuth extends Cubit<CubitAuthState>
     if (error is AppException) {
       return error.message;
     }
+
     return 'Ocorreu um erro inesperado.';
   }
 

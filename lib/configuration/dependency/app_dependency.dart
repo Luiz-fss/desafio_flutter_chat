@@ -15,60 +15,44 @@ import '../../repositories/users/i_user_repository.dart';
 
 class AppDependencies {
   void register() {
-
-    // Firebase
     ServiceLocator.registerLazy<FirebaseAuth>(
           () => FirebaseAuth.instance,
     );
-
     ServiceLocator.registerLazy<FirebaseFirestore>(
           () => FirebaseFirestore.instance,
     );
 
-
-    // repositories
     ServiceLocator.registerLazy<IAuthRepository>(
           () => FirebaseAuthRepositoryImpl(
         ServiceLocator.get<FirebaseAuth>(),
       ),
     );
-
-
     ServiceLocator.registerLazy<IUsersRepository>(
           () => FirebaseUsersRepositoryImpl(
         ServiceLocator.get<FirebaseFirestore>(),
       ),
     );
-
-
     ServiceLocator.registerLazy<IChatRepository>(
           () => FirebaseChatRepositoryImpl(
         ServiceLocator.get<FirebaseFirestore>(),
       ),
     );
 
-
-    // cubits
     ServiceLocator.registerLazy<CubitAuth>(
           () => CubitAuth(
         ServiceLocator.get<IAuthRepository>(),
       ),
     );
-
-
     ServiceLocator.registerLazy<CubitUsers>(
           () => CubitUsers(
         ServiceLocator.get<IUsersRepository>(),
       ),
     );
-
-
     ServiceLocator.registerLazy<CubitChat>(
           () => CubitChat(
         ServiceLocator.get<IChatRepository>()
       ),
     );
-
     ServiceLocator.registerLazy<CubitRegister>(
           () => CubitRegister(
         ServiceLocator.get<IAuthRepository>(),

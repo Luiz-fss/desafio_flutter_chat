@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../models/authentication/auth_user_model.dart';
 
-
 class CubitAuthState extends Equatable {
   final bool isLoading;
   final AuthUserModel? user;
@@ -16,21 +15,30 @@ class CubitAuthState extends Equatable {
     this.errorMessage,
   });
 
+  static const _unset = Object();
+
   CubitAuthState copyWith({
     bool? isLoading,
-    Object? user = _undefined,
+    Object? user = _unset,
     bool? isInitialized,
-    Object? errorMessage = _undefined,
+    Object? errorMessage = _unset,
   }) {
     return CubitAuthState(
       isLoading: isLoading ?? this.isLoading,
-      user: user == _undefined
-          ? this.user
-          : user as AuthUserModel?,
+      user: user == _unset ? this.user : user as AuthUserModel?,
       isInitialized: isInitialized ?? this.isInitialized,
-      errorMessage: errorMessage == _undefined
+      errorMessage: errorMessage == _unset
           ? this.errorMessage
           : errorMessage as String?,
+    );
+  }
+
+  CubitAuthState clearError() {
+    return CubitAuthState(
+      isLoading: isLoading,
+      user: user,
+      isInitialized: isInitialized,
+      errorMessage: null,
     );
   }
 
@@ -42,5 +50,3 @@ class CubitAuthState extends Equatable {
     errorMessage,
   ];
 }
-
-const _undefined = Object();

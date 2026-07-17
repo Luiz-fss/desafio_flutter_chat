@@ -18,16 +18,17 @@ class CubitChat extends Cubit<CubitChatState>
 
   CubitChat(this._chatRepository)
       : super(const CubitChatState());
+
   @override
   void watchMessages() {
     _messagesSubscription?.cancel();
+
     _messagesSubscription =
         _chatRepository.watchMessages().listen(
               (messages) {
             emit(
-              state.copyWith(
+              state.clearError().copyWith(
                 messages: messages,
-                errorMessage: null,
               ),
             );
           },
@@ -49,11 +50,11 @@ class CubitChat extends Cubit<CubitChatState>
   }) async {
     try {
       emit(
-        state.copyWith(
+        state.clearError().copyWith(
           isLoading: true,
-          errorMessage: null,
         ),
       );
+
       final message = MessageModel(
         id: '',
         senderId: senderId,
@@ -61,14 +62,17 @@ class CubitChat extends Cubit<CubitChatState>
         text: text,
         createdAt: DateTime.now(),
       );
+
       await _chatRepository.sendMessage(
         message,
       );
+
       emit(
         state.copyWith(
           isLoading: false,
         ),
       );
+
     } catch (e) {
       emit(
         state.copyWith(
@@ -83,6 +87,7 @@ class CubitChat extends Cubit<CubitChatState>
     if (error is AppException) {
       return error.message;
     }
+
     return 'Ocorreu um erro inesperado.';
   }
 
