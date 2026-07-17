@@ -165,3 +165,4 @@ Antes de executar, tenha instalado:
 Projeto desenvolvido utilizando:
 - Flutter sdk: 3.44.6
 - Dart: 3.12.2
+- link para apk:https://drive.google.com/drive/folders/1vhCZlJbhBj9mTfUxHVs6mZK6YsL3aSHq?usp=drive_link
