@@ -4,6 +4,7 @@ import 'package:chat_realtime/utils/validators/email_validator.dart';
 import 'package:chat_realtime/utils/validators/password_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../cubits/auth/auth_cubit.dart';
 import '../../../../cubits/auth/cubit_auth_state.dart';
 import '../../../../routes/app_routes.dart';
@@ -33,12 +34,17 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<CubitAuth, CubitAuthState>(
+      listenWhen: (previous, current) {
+        return previous.errorMessage != current.errorMessage &&
+            current.errorMessage != null;
+      },
       listener: (context, state) {
-        if (state.errorMessage != null) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
-        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 3),
+            content: Text(state.errorMessage!),
+          ),
+        );
       },
       child: Form(
         key: _formKey,
@@ -52,29 +58,38 @@ class _LoginFormState extends State<LoginForm> {
                 controller: _emailController,
                 validator: validateEmail,
               ),
+
               const SizedBox(height: 16),
+
               CustomTextFormField(
                 label: "Informe sua senha",
                 obscureText: true,
                 controller: _passwordController,
                 validator: validatePassword,
               ),
+
               const SizedBox(height: 24),
+
               BlocBuilder<CubitAuth, CubitAuthState>(
                 builder: (context, state) {
                   if (state.isLoading) {
                     return const CircularProgressIndicator();
                   }
+
                   return CustomElevatedButton(
                     onPressed: _login,
                     text: 'Entrar',
                   );
                 },
               ),
+
               CustomTextButton(
                 text: 'Criar conta',
                 onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.register);
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutes.register,
+                  );
                 },
               ),
             ],
@@ -88,6 +103,7 @@ class _LoginFormState extends State<LoginForm> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+
     context.read<CubitAuth>().login(
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),

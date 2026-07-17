@@ -34,12 +34,12 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     if (state.user != null) {
-      Navigator.pushNamed(
+      Navigator.pushReplacementNamed(
         context,
         AppRoutes.home,
       );
     } else {
-      Navigator.pushNamed(
+      Navigator.pushReplacementNamed(
         context,
         AppRoutes.login,
       );
