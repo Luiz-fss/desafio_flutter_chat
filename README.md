@@ -78,13 +78,13 @@ A presença é controlada utilizando recursos realtime do Firebase Firestore.
 
 ---
 
-# 🏗 Arquitetura
+#  Arquitetura
 
 O projeto utiliza uma arquitetura baseada em camadas, buscando separar responsabilidades e facilitar manutenção.
 
 ---
 
-# 🧩 Gerenciamento de estado
+#  Gerenciamento de estado
 
 O gerenciamento de estado foi realizado utilizando Cubit (Flutter Bloc).
 
