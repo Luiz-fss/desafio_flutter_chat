@@ -134,6 +134,19 @@ O projeto possui uma camada centralizada de tratamento de exceções.
 
 O objetivo é evitar que mensagens internas do Firebase sejam exibidas diretamente ao usuário.
 
+#  Testes
+
+O projeto possui testes unitários para validar regras de negócio e comportamentos importantes da aplicação.
+
+Testes implementados:
+
+- Validação de email e senha;
+- Comportamento do Cubit de autenticação;
+- Tratamento de cenários de erro.
+
+Para executar os testes, rodar o comando no terminal:
+- flutter test
+
 #  Como executar o projeto
 
 ## Requisitos
@@ -144,7 +157,6 @@ Antes de executar, tenha instalado:
 - Dart SDK
 - Android Studio ou VS Code
 - Emulador Android ou dispositivo físico
-
 
 ---
 
