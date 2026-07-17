@@ -1,17 +1,155 @@
-# chat_realtime
+#  Chat Realtime Flutter
 
-A new Flutter project.
+Aplicativo de chat em tempo real desenvolvido em Flutter utilizando Firebase como backend.
 
-## Getting Started
+O projeto permite cadastro e autenticação de usuários, controle de presença online/offline e troca de mensagens em tempo real entre usuários conectados.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+#  Funcionalidades
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Autenticação
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Cadastro de novos usuários
+- Login utilizando email e senha
+- Logout
+- Persistência de sessão
+- Validação dos campos de entrada
+- Tratamento de erros de autenticação
+
+
+## Usuários
+
+- Listagem de usuários cadastrados
+- Identificação de usuários online/offline
+- Atualização de presença em tempo real
+- Exibição das informações do perfil
+
+
+## Chat
+
+- Envio de mensagens em tempo real
+- Recebimento automático de novas mensagens
+- Histórico de mensagens
+- Identificação do remetente
+- Validação de mensagens vazias
+
+
+## Presença em tempo real
+
+O aplicativo atualiza automaticamente o status do usuário:
+
+- Ao realizar login -> usuário fica online
+- Ao realizar logout -> usuário fica offline
+- Ao fechar o aplicativo -> presença é atualizada
+- Ao perder conexão -> presença é atualizada
+- Ao bloquear o celular -> presença é atualizada
+
+
+A presença é controlada utilizando recursos realtime do Firebase Firestore.
+
+---
+
+#  Tecnologias utilizadas
+
+## Front-end
+
+- Flutter
+- Dart
+- Material Design
+- Flutter Bloc (Cubit)
+
+
+## Backend
+
+- Firebase Authentication
+- Cloud Firestore
+
+
+## Principais dependências
+
+| Biblioteca | Utilização |
+|---|---|
+| flutter_bloc | Gerenciamento de estado |
+| firebase_auth | Autenticação de usuários |
+| cloud_firestore | Banco de dados realtime |
+| equatable | Comparação de estados |
+| intl | Formatação de datas |
+
+---
+
+# 🏗 Arquitetura
+
+O projeto utiliza uma arquitetura baseada em camadas, buscando separar responsabilidades e facilitar manutenção.
+
+---
+
+# 🧩 Gerenciamento de estado
+
+O gerenciamento de estado foi realizado utilizando Cubit (Flutter Bloc).
+
+Responsabilidades:
+
+### CubitAuth
+
+Responsável por:
+
+- Login
+- Logout
+- Estado da autenticação
+- Monitoramento da sessão
+
+
+### CubitRegister
+
+Responsável por:
+
+- Cadastro do usuário
+- Criação do perfil no Firestore
+
+
+### CubitUsers
+
+Responsável por:
+
+- Buscar usuários
+- Atualizar presença
+- Usuário atualmente logado
+- Lista em tempo real
+
+
+### CubitChat
+
+Responsável por:
+
+- Escutar mensagens
+- Enviar mensagens
+- Controle de estado do chat
+
+---
+
+#  Tratamento de erros
+
+O projeto possui uma camada centralizada de tratamento de exceções.
+
+O objetivo é evitar que mensagens internas do Firebase sejam exibidas diretamente ao usuário.
+
+#  Como executar o projeto
+
+## Requisitos
+
+Antes de executar, tenha instalado:
+
+- Flutter SDK
+- Dart SDK
+- Android Studio ou VS Code
+- Emulador Android ou dispositivo físico
+
+
+---
+
+# Ambiente de desenvolvimento
+
+Projeto desenvolvido utilizando:
+- Flutter sdk: 3.44.6
+- Dart: 3.12.2

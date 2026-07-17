@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "405441808693",
+    "project_id": "chat-realtime-ceff7",
+    "storage_bucket": "chat-realtime-ceff7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405441808693:android:d2ad03fe565e48cc7ee47c",
+        "android_client_info": {
+          "package_name": "com.example.chat_realtime"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKsl7YN6ME7-hP0k3asoER5-NK9TXBKgs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
