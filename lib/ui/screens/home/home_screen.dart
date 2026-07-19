@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../cubits/auth/cubit_auth.dart';
 import '../../../cubits/auth/cubit_auth_state.dart';
 import '../../../cubits/users/cubit_users.dart';
+import '../../../cubits/users/cubit_users_state.dart';
 import '../../../routes/app_routes.dart';
 import '../../components/home/home_app_bar.dart';
 import 'chat/chat_screen.dart';
@@ -19,8 +20,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   int _currentIndex = 0;
 
-  final List<Widget> _pages = const [UsersScreen(), ChatScreen()];
-
   @override
   void initState() {
     super.initState();
@@ -34,6 +33,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
     }
   }
+
+  List<Widget> get _pages => [const UsersScreen(), const ChatScreen()];
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -68,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       listener: (context, state) {
         if (state.user == null && state.isInitialized) {
           Navigator.pushReplacementNamed(context, AppRoutes.login);
-          return;
         }
       },
       child: PopScope(
@@ -87,7 +87,14 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               await context.read<CubitAuth>().logout();
             },
           ),
-          body: IndexedStack(index: _currentIndex, children: _pages),
+          body: BlocBuilder<CubitUsers, CubitUsersState>(
+            builder: (context, state) {
+              if (state.loggedUser == null) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return IndexedStack(index: _currentIndex, children: _pages);
+            },
+          ),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: (index) {

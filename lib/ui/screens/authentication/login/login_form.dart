@@ -39,19 +39,30 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return BlocListener<CubitAuth, CubitAuthState>(
       listenWhen: (previous, current) {
-        return current.errorMessage != null &&
-            previous.errorMessage != current.errorMessage;
+        return (current.errorMessage != null &&
+            previous.errorMessage != current.errorMessage) ||
+            (previous.user == null &&
+                current.user != null);
       },
       listener: (context, state) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: const Duration(seconds: 3),
-            content: Text(
-              state.errorMessage!,
+        if (state.errorMessage != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              duration: const Duration(seconds: 3),
+              content: Text(
+                state.errorMessage!,
+              ),
             ),
-          ),
-        );
-        context.read<CubitAuth>().clearError();
+          );
+          context.read<CubitAuth>().clearError();
+          return;
+        }
+        if (state.user != null) {
+          Navigator.pushReplacementNamed(
+            context,
+            AppRoutes.home,
+          );
+        }
       },
       child: Form(
         key: _formKey,

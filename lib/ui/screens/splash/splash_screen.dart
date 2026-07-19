@@ -13,13 +13,15 @@ class SplashScreen extends StatefulWidget {
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
+
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<CubitAuth, CubitAuthState>(
-        listenWhen: (previous, current) {
-          return previous.user != current.user;
-        },
+      listenWhen: (previous, current) {
+        return !previous.isInitialized &&
+            current.isInitialized;
+      },
       listener: (_, state) {
         _handleNavigation(state);
       },
@@ -30,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+
   void _handleNavigation(
       CubitAuthState state,
       ) {
