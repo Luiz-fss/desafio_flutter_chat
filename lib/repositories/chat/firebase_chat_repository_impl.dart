@@ -15,7 +15,41 @@ class FirebaseChatRepositoryImpl implements IChatRepository {
   @override
   Future<void> sendMessage(MessageModel message) async {
     try {
-      await _messages.add(message.toMap());
+      final doc = _messages.doc();
+
+      final messageWithId = message.copyWith(
+        id: doc.id,
+      );
+
+      await doc.set(messageWithId.toMap());
+    } catch (e) {
+      throw ExceptionHandler.handle(e);
+    }
+  }
+
+  @override
+  Future<void> editMessage({
+    required String messageId,
+    required String text,
+  }) async {
+    try {
+      await _messages.doc(messageId).update({
+        'text': text,
+        'editedAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      throw ExceptionHandler.handle(e);
+    }
+  }
+
+  @override
+  Future<void> deleteMessage({
+    required String messageId,
+  }) async {
+    try {
+      await _messages.doc(messageId).update({
+        'deleted': true,
+      });
     } catch (e) {
       throw ExceptionHandler.handle(e);
     }
@@ -27,12 +61,15 @@ class FirebaseChatRepositoryImpl implements IChatRepository {
         .orderBy('createdAt', descending: false)
         .snapshots()
         .map((snapshot) {
-          return snapshot.docs.map((doc) {
-            return MessageModel.fromMap(doc.id, doc.data());
-          }).toList();
-        })
+      return snapshot.docs.map((doc) {
+        return MessageModel.fromMap(
+          doc.id,
+          doc.data(),
+        );
+      }).toList();
+    })
         .handleError((error) {
-          throw ExceptionHandler.handle(error);
-        });
+      throw ExceptionHandler.handle(error);
+    });
   }
 }

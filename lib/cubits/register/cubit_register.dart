@@ -31,12 +31,10 @@ class CubitRegister extends Cubit<CubitRegisterState>
           isLoading: true,
         ),
       );
-
       final user = await _authRepository.register(
         email: email,
         password: password,
       );
-
       if (user == null) {
         throw const AppException(
           'Erro ao criar usuário.',
@@ -52,13 +50,11 @@ class CubitRegister extends Cubit<CubitRegisterState>
           lastSeen: DateTime.now(),
         ),
       );
-
       emit(
         state.copyWith(
           isLoading: false,
         ),
       );
-
     } catch (e) {
       emit(
         state.copyWith(
@@ -69,11 +65,16 @@ class CubitRegister extends Cubit<CubitRegisterState>
     }
   }
 
+  void clearError() {
+    emit(
+      state.clearError(),
+    );
+  }
   String _handleError(Object error) {
     if (error is AppException) {
       return error.message;
     }
-
     return 'Ocorreu um erro inesperado.';
   }
+
 }

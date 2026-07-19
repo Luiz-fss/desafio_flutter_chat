@@ -2,7 +2,7 @@ import 'package:chat_realtime/ui/screens/home/users/users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../cubits/auth/auth_cubit.dart';
+import '../../../cubits/auth/cubit_auth.dart';
 import '../../../cubits/auth/cubit_auth_state.dart';
 import '../../../cubits/users/cubit_users.dart';
 import '../../../routes/app_routes.dart';

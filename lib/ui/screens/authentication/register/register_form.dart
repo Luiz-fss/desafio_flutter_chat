@@ -6,7 +6,7 @@ import 'package:chat_realtime/utils/validators/password_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../cubits/auth/auth_cubit.dart';
+import '../../../../cubits/auth/cubit_auth.dart';
 import '../../../../cubits/auth/cubit_auth_state.dart';
 
 import '../../../../cubits/register/cubit_register.dart';
@@ -16,11 +16,20 @@ import '../../../../routes/app_routes.dart';
 
 import '../../../components/share/custom_text_button.dart';
 
+
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key});
+
+  const RegisterForm({
+    super.key,
+  });
+
+
   @override
   State<RegisterForm> createState() => _RegisterFormState();
+
 }
+
+
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
@@ -34,25 +43,41 @@ class _RegisterFormState extends State<RegisterForm> {
     _passwordController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
         BlocListener<CubitRegister, CubitRegisterState>(
+          listenWhen: (previous, current) {
+            return current.errorMessage != null &&
+                previous.errorMessage != current.errorMessage;
+          },
           listener: (context, state) {
-            if (state.errorMessage != null) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
-            }
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: const Duration(
+                  seconds: 3,
+                ),
+                content: Text(
+                  state.errorMessage!,
+                ),
+              ),
+            );
+            context
+                .read<CubitRegister>()
+                .clearError();
           },
         ),
         BlocListener<CubitAuth, CubitAuthState>(
+          listenWhen: (previous, current) {
+            return previous.user == null &&
+                current.user != null;
+          },
           listener: (context, state) {
-            if (state.user != null) {
-              Navigator.pushReplacementNamed(context, AppRoutes.home);
-            }
+            Navigator.pushReplacementNamed(
+              context,
+              AppRoutes.home,
+            );
           },
         ),
       ],
@@ -68,20 +93,26 @@ class _RegisterFormState extends State<RegisterForm> {
                 controller: _nameController,
                 validator: validateName,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(
+                height: 16,
+              ),
               CustomTextFormField(
                 label: "Informe seu email",
                 controller: _emailController,
                 validator: validateEmail,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(
+                height: 16,
+              ),
               CustomTextFormField(
                 label: "Informe sua senha",
                 obscureText: true,
                 controller: _passwordController,
                 validator: validatePassword,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(
+                height: 24,
+              ),
               BlocBuilder<CubitRegister, CubitRegisterState>(
                 builder: (context, state) {
                   if (state.isLoading) {
@@ -96,7 +127,10 @@ class _RegisterFormState extends State<RegisterForm> {
               CustomTextButton(
                 text: "Já tenho uma conta",
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, AppRoutes.login);
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.login,
+                  );
                 },
               ),
             ],
@@ -105,15 +139,17 @@ class _RegisterFormState extends State<RegisterForm> {
       ),
     );
   }
-
   void _register() {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    context.read<CubitRegister>().register(
+    context
+        .read<CubitRegister>()
+        .register(
       name: _nameController.text.trim(),
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
     );
   }
+
 }

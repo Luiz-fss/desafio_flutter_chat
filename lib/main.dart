@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'configuration/dependency/app_dependency.dart';
 import 'configuration/dependency/service_locator.dart';
 
-import 'cubits/auth/auth_cubit.dart';
+import 'cubits/auth/cubit_auth.dart';
 import 'cubits/chat/cubit_chat.dart';
 import 'cubits/register/cubit_register.dart';
 import 'cubits/users/cubit_users.dart';

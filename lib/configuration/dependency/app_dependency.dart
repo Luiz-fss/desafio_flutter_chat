@@ -2,7 +2,7 @@ import 'package:chat_realtime/configuration/dependency/service_locator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../cubits/auth/auth_cubit.dart';
+import '../../cubits/auth/cubit_auth.dart';
 import '../../cubits/chat/cubit_chat.dart';
 import '../../cubits/register/cubit_register.dart';
 import '../../cubits/users/cubit_users.dart';

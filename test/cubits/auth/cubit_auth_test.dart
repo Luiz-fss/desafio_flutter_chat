@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:chat_realtime/cubits/auth/auth_cubit.dart';
+import 'package:chat_realtime/cubits/auth/cubit_auth.dart';
 
 import '../../mocks/fake_auth_repository.dart';
 

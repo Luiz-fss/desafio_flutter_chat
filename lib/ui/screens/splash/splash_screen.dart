@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../cubits/auth/auth_cubit.dart';
+import '../../../cubits/auth/cubit_auth.dart';
 import '../../../cubits/auth/cubit_auth_state.dart';
 import '../../../routes/app_routes.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({
+    super.key,
+  });
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
-
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<CubitAuth, CubitAuthState>(
+        listenWhen: (previous, current) {
+          return previous.user != current.user;
+        },
       listener: (_, state) {
         _handleNavigation(state);
       },
@@ -27,12 +30,9 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
-
-  void _handleNavigation(CubitAuthState state) {
-    if (!state.isInitialized) {
-      return;
-    }
-
+  void _handleNavigation(
+      CubitAuthState state,
+      ) {
     if (state.user != null) {
       Navigator.pushReplacementNamed(
         context,

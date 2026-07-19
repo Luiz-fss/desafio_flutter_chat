@@ -63,8 +63,38 @@ class CubitChat extends Cubit<CubitChatState>
         createdAt: DateTime.now(),
       );
 
-      await _chatRepository.sendMessage(
-        message,
+      await _chatRepository.sendMessage(message);
+
+      emit(
+        state.copyWith(
+          isLoading: false,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isLoading: false,
+          errorMessage: _handleError(e),
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<void> editMessage({
+    required String messageId,
+    required String text,
+  }) async {
+    try {
+      emit(
+        state.clearError().copyWith(
+          isLoading: true,
+        ),
+      );
+
+      await _chatRepository.editMessage(
+        messageId: messageId,
+        text: text,
       );
 
       emit(
@@ -72,7 +102,36 @@ class CubitChat extends Cubit<CubitChatState>
           isLoading: false,
         ),
       );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          isLoading: false,
+          errorMessage: _handleError(e),
+        ),
+      );
+    }
+  }
 
+  @override
+  Future<void> deleteMessage({
+    required String messageId,
+  }) async {
+    try {
+      emit(
+        state.clearError().copyWith(
+          isLoading: true,
+        ),
+      );
+
+      await _chatRepository.deleteMessage(
+        messageId: messageId,
+      );
+
+      emit(
+        state.copyWith(
+          isLoading: false,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
